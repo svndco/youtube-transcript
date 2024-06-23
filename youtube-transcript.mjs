@@ -105,6 +105,13 @@ async function getTranscript(axios, videoId, language = 'en') {
 }
 
 async function fetchAndCopyTranscript(clipboardy, axios, currentUrl, videoId) {
+  if (videoId === "Invalid YouTube URL") {
+    const errorMessage = "Provided URL is not a valid YouTube video";
+    logToFile(errorMessage);
+    console.log(errorMessage);
+    return;
+  }
+  
   let transcript = await getTranscript(axios, videoId);
   if (!transcript || transcript.trim().length === 0) {
     logToFile(`Transcript not found for language 'en'. Checking available languages...`);
