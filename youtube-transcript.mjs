@@ -73,7 +73,7 @@ async function getAvailableLanguages(axios, videoId) {
     const response = await axios.get(listUrl);
     logToFile(`Language list fetch response status: ${response.status}`);
     logToFile(`Language list fetch response headers: ${JSON.stringify(response.headers)}`);
-    logToFile(`Language list fetch response data: ${response.data}`);
+    logToFile(`Available languages response data:\n${response.data}`);
     return response.data;
   } catch (error) {
     const errorMessage = `Error fetching available languages: ${error.message}`;
@@ -89,7 +89,7 @@ async function getTranscript(axios, videoId, language = 'en') {
     const response = await axios.get(transcriptUrl);
     logToFile(`Transcript fetch response status: ${response.status}`);
     logToFile(`Transcript fetch response headers: ${JSON.stringify(response.headers)}`);
-    logToFile(`Transcript fetch response data: ${response.data}`);
+    logToFile(`Transcript fetch response data:\n${response.data}`);
     return response.data || '';
   } catch (error) {
     const errorMessage = `Error fetching transcript: ${error.message}`;
@@ -101,17 +101,20 @@ async function getTranscript(axios, videoId, language = 'en') {
 async function fetchAndCopyTranscript(clipboardy, axios, currentUrl, videoId) {
   let transcript = await getTranscript(axios, videoId);
   if (!transcript) {
+    logToFile(`Transcript not found for language 'en'. Checking available languages...`);
     const languages = await getAvailableLanguages(axios, videoId);
-    logToFile(`Available languages: ${languages}`);
+    logToFile(`Available languages:\n${languages}`);
+    
     // Retry with another language if available
     const parsedLanguages = languages.match(/lang_code="([^"]+)"/g);
     if (parsedLanguages && parsedLanguages.length > 0) {
       const newLanguage = parsedLanguages[0].split('"')[1];
       logToFile(`Retrying with language: ${newLanguage}`);
       transcript = await getTranscript(axios, videoId, newLanguage);
+      logToFile(`Transcript retry fetch response with language '${newLanguage}' length: ${transcript.length}`);
     }
   }
-  logToFile(`Transcript length: ${transcript.length}`);
+  logToFile(`Final transcript length: ${transcript.length}`);
 
   const textToCopy = `${currentUrl}\n\n${transcript}`;
   await copyToClipboardInChunks(clipboardy, textToCopy);

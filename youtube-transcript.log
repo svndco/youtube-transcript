@@ -51,3 +51,35 @@
 2024-06-23T03:16:50.778Z - Language list fetch response data: 
 2024-06-23T03:16:50.778Z - Available languages: 
 2024-06-23T03:16:50.778Z - Transcript length: 0
+2024-06-23T03:22:59.380Z - Current URL: https://www.youtube.com/watch?v=fp9lQmAFff8
+2024-06-23T03:22:59.392Z - Video ID: fp9lQmAFff8
+2024-06-23T03:22:59.550Z - Fetching transcript from URL: https://www.youtube.com/api/timedtext?lang=en&v=fp9lQmAFff8
+2024-06-23T03:22:59.701Z - Transcript fetch response status: 200
+2024-06-23T03:22:59.702Z - Transcript fetch response headers: {"date":"Sun, 23 Jun 2024 03:22:59 GMT","pragma":"no-cache","expires":"Fri, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, must-revalidate","x-content-type-options":"nosniff","content-type":"text/html; charset=UTF-8","server":"video-timedtext","content-length":"0","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"}
+2024-06-23T03:22:59.702Z - Transcript fetch response data: 
+2024-06-23T03:22:59.703Z - Fetching available languages from URL: https://www.youtube.com/api/timedtext?type=list&v=fp9lQmAFff8
+2024-06-23T03:22:59.747Z - Language list fetch response status: 200
+2024-06-23T03:22:59.747Z - Language list fetch response headers: {"date":"Sun, 23 Jun 2024 03:22:59 GMT","pragma":"no-cache","expires":"Fri, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, must-revalidate","x-content-type-options":"nosniff","content-type":"text/html; charset=UTF-8","server":"video-timedtext","content-length":"0","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"}
+2024-06-23T03:22:59.747Z - Language list fetch response data: 
+2024-06-23T03:22:59.747Z - Available languages: 
+2024-06-23T03:22:59.748Z - Transcript length: 0
+2024-06-23T03:22:59.773Z - Copied chunk of length 45 to clipboard.
+2024-06-23T03:22:59.773Z - Transcript clipped successfully.
+2024-06-23T03:30:58.022Z - Current URL: https://www.youtube.com/watch?v=fp9lQmAFff8
+2024-06-23T03:30:58.036Z - Video ID: fp9lQmAFff8
+2024-06-23T03:30:58.201Z - Fetching transcript from URL: https://www.youtube.com/api/timedtext?lang=en&v=fp9lQmAFff8
+2024-06-23T03:30:58.406Z - Transcript fetch response status: 200
+2024-06-23T03:30:58.406Z - Transcript fetch response headers: {"date":"Sun, 23 Jun 2024 03:30:58 GMT","pragma":"no-cache","expires":"Fri, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, must-revalidate","x-content-type-options":"nosniff","content-type":"text/html; charset=UTF-8","server":"video-timedtext","content-length":"0","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"}
+2024-06-23T03:30:58.406Z - Transcript fetch response data:
+
+2024-06-23T03:30:58.407Z - Transcript not found for language 'en'. Checking available languages...
+2024-06-23T03:30:58.407Z - Fetching available languages from URL: https://www.youtube.com/api/timedtext?type=list&v=fp9lQmAFff8
+2024-06-23T03:30:58.445Z - Language list fetch response status: 200
+2024-06-23T03:30:58.446Z - Language list fetch response headers: {"date":"Sun, 23 Jun 2024 03:30:58 GMT","pragma":"no-cache","expires":"Fri, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, must-revalidate","x-content-type-options":"nosniff","content-type":"text/html; charset=UTF-8","server":"video-timedtext","content-length":"0","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"}
+2024-06-23T03:30:58.446Z - Available languages response data:
+
+2024-06-23T03:30:58.446Z - Available languages:
+
+2024-06-23T03:30:58.447Z - Final transcript length: 0
+2024-06-23T03:30:58.474Z - Copied chunk of length 45 to clipboard.
+2024-06-23T03:30:58.475Z - Transcript clipped successfully.
