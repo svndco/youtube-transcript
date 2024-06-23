@@ -67,8 +67,13 @@ function extractVideoId(url) {
 }
 
 async function getTranscript(axios, videoId, language = 'en') {
+  const transcriptUrl = `https://www.youtube.com/api/timedtext?lang=${language}&v=${videoId}`;
+  logToFile(`Fetching transcript from URL: ${transcriptUrl}`);
   try {
-    const response = await axios.get(`https://www.youtube.com/api/timedtext?lang=${language}&v=${videoId}`);
+    const response = await axios.get(transcriptUrl);
+    logToFile(`Transcript fetch response status: ${response.status}`);
+    logToFile(`Transcript fetch response headers: ${JSON.stringify(response.headers)}`);
+    logToFile(`Transcript fetch response data: ${response.data}`);
     return response.data || '';
   } catch (error) {
     const errorMessage = `Error fetching transcript: ${error.message}`;
