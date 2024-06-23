@@ -93,10 +93,6 @@ async function getTranscript(axios, videoId, language = 'en') {
     logToFile(`Transcript fetch response status: ${response.status}`);
     logToFile(`Transcript fetch response headers: ${JSON.stringify(response.headers)}`);
     logToFile(`Transcript fetch response data:\n${response.data}`);
-    if (response.data) {
-      const transcriptLength = response.data.length;
-      logToFile(`Transcript fetch response length: ${transcriptLength}`);
-    }
     const transcriptIsEmpty = !response.data || response.data.trim().length === 0;
     logToFile(`Transcript is empty? ${transcriptIsEmpty}`);
     return response.data || '';

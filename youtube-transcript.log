@@ -102,3 +102,22 @@
 2024-06-23T03:41:06.797Z - No available languages found for video ID: fp9lQmAFff8
 2024-06-23T03:41:06.797Z - Final transcript length: 0
 2024-06-23T03:41:06.797Z - No transcript available for video ID: fp9lQmAFff8
+2024-06-23T03:50:33.886Z - Current URL: https://www.youtube.com/watch?v=fp9lQmAFff8
+2024-06-23T03:50:33.898Z - Video ID: fp9lQmAFff8
+2024-06-23T03:50:34.069Z - Fetching transcript from URL: https://www.youtube.com/api/timedtext?lang=en&v=fp9lQmAFff8
+2024-06-23T03:50:34.322Z - Transcript fetch response status: 200
+2024-06-23T03:50:34.323Z - Transcript fetch response headers: {"date":"Sun, 23 Jun 2024 03:50:34 GMT","pragma":"no-cache","expires":"Fri, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, must-revalidate","x-content-type-options":"nosniff","content-type":"text/html; charset=UTF-8","server":"video-timedtext","content-length":"0","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"}
+2024-06-23T03:50:34.323Z - Transcript fetch response data:
+
+2024-06-23T03:50:34.323Z - Transcript is empty? true
+2024-06-23T03:50:34.323Z - Transcript not found for language 'en'. Checking available languages...
+2024-06-23T03:50:34.323Z - Fetching available languages from URL: https://www.youtube.com/api/timedtext?type=list&v=fp9lQmAFff8
+2024-06-23T03:50:34.357Z - Language list fetch response status: 200
+2024-06-23T03:50:34.357Z - Language list fetch response headers: {"date":"Sun, 23 Jun 2024 03:50:34 GMT","pragma":"no-cache","expires":"Fri, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, must-revalidate","x-content-type-options":"nosniff","content-type":"text/html; charset=UTF-8","server":"video-timedtext","content-length":"0","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000"}
+2024-06-23T03:50:34.357Z - Available languages response data:
+
+2024-06-23T03:50:34.358Z - Available languages:
+
+2024-06-23T03:50:34.358Z - No available languages found for video ID: fp9lQmAFff8
+2024-06-23T03:50:34.358Z - Final transcript length: 0
+2024-06-23T03:50:34.358Z - No transcript available for video ID: fp9lQmAFff8
