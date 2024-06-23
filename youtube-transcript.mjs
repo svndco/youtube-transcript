@@ -3,7 +3,7 @@
 // Required parameters:
 // @raycast.schemaVersion 1
 // @raycast.title YouTube Transcript
-// @raycast.mode silent
+// @raycast.mode fullOutput
 
 // Optional parameters:
 // @raycast.icon 🤖
@@ -45,6 +45,7 @@ function getActiveTabUrl() {
   } catch (error) {
     const errorMessage = `Error retrieving active tab URL: ${error.message}`;
     logToFile(errorMessage);
+    console.log(errorMessage);
     process.exit(1);
   }
 }
@@ -63,6 +64,7 @@ function extractVideoId(url) {
   }
   const errorMessage = "Invalid YouTube URL";
   logToFile(errorMessage);
+  console.log(errorMessage);
   process.exit(1);
 }
 
@@ -78,6 +80,7 @@ async function getAvailableLanguages(axios, videoId) {
   } catch (error) {
     const errorMessage = `Error fetching available languages: ${error.message}`;
     logToFile(errorMessage);
+    console.log(errorMessage);
     process.exit(1);
   }
 }
@@ -90,36 +93,57 @@ async function getTranscript(axios, videoId, language = 'en') {
     logToFile(`Transcript fetch response status: ${response.status}`);
     logToFile(`Transcript fetch response headers: ${JSON.stringify(response.headers)}`);
     logToFile(`Transcript fetch response data:\n${response.data}`);
+    if (response.data) {
+      const transcriptLength = response.data.length;
+      logToFile(`Transcript fetch response length: ${transcriptLength}`);
+    }
+    const transcriptIsEmpty = !response.data || response.data.trim().length === 0;
+    logToFile(`Transcript is empty? ${transcriptIsEmpty}`);
     return response.data || '';
   } catch (error) {
     const errorMessage = `Error fetching transcript: ${error.message}`;
     logToFile(errorMessage);
+    console.log(errorMessage);
     process.exit(1);
   }
 }
 
 async function fetchAndCopyTranscript(clipboardy, axios, currentUrl, videoId) {
   let transcript = await getTranscript(axios, videoId);
-  if (!transcript) {
+  if (!transcript || transcript.trim().length === 0) {
     logToFile(`Transcript not found for language 'en'. Checking available languages...`);
+    console.log(`Transcript not found for language 'en'. Checking available languages...`);
     const languages = await getAvailableLanguages(axios, videoId);
     logToFile(`Available languages:\n${languages}`);
+    console.log(`Available languages:\n${languages}`);
     
     // Retry with another language if available
     const parsedLanguages = languages.match(/lang_code="([^"]+)"/g);
     if (parsedLanguages && parsedLanguages.length > 0) {
       const newLanguage = parsedLanguages[0].split('"')[1];
       logToFile(`Retrying with language: ${newLanguage}`);
+      console.log(`Retrying with language: ${newLanguage}`);
       transcript = await getTranscript(axios, videoId, newLanguage);
-      logToFile(`Transcript retry fetch response with language '${newLanguage}' length: ${transcript.length}`);
+      logToFile(`Transcript retry fetch response length: ${transcript.length} with language '${newLanguage}'`);
+    } else {
+      logToFile(`No available languages found for video ID: ${videoId}`);
+      console.log(`No available languages found for video ID: ${videoId}`);
     }
   }
+
   logToFile(`Final transcript length: ${transcript.length}`);
+  if (!transcript || transcript.trim().length === 0) {
+    const noTranscriptMessage = `No transcript available for video ID: ${videoId}`;
+    logToFile(noTranscriptMessage);
+    console.log(noTranscriptMessage);
+    return;
+  }
 
   const textToCopy = `${currentUrl}\n\n${transcript}`;
   await copyToClipboardInChunks(clipboardy, textToCopy);
 
   logToFile('Transcript clipped successfully.');
+  console.log('Transcript clipped successfully.');
 }
 
 async function copyToClipboardInChunks(clipboardy, text) {
@@ -133,15 +157,18 @@ async function copyToClipboardInChunks(clipboardy, text) {
   for (const chunk of chunks) {
     await clipboardy.write(chunk);
     logToFile(`Copied chunk of length ${chunk.length} to clipboard.`);
+    console.log(`Copied chunk of length ${chunk.length} to clipboard.`);
   }
 }
 
 (async () => {
   const currentUrl = getActiveTabUrl();
   logToFile(`Current URL: ${currentUrl}`);
+  console.log(`Current URL: ${currentUrl}`);
 
   const videoId = extractVideoId(currentUrl);
   logToFile(`Video ID: ${videoId}`);
+  console.log(`Video ID: ${videoId}`);
 
   const { clipboardy, axios } = await dynamicImports();
   await fetchAndCopyTranscript(clipboardy, axios, currentUrl, videoId);
