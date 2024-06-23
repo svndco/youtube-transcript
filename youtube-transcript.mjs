@@ -66,6 +66,22 @@ function extractVideoId(url) {
   process.exit(1);
 }
 
+async function getAvailableLanguages(axios, videoId) {
+  const listUrl = `https://www.youtube.com/api/timedtext?type=list&v=${videoId}`;
+  logToFile(`Fetching available languages from URL: ${listUrl}`);
+  try {
+    const response = await axios.get(listUrl);
+    logToFile(`Language list fetch response status: ${response.status}`);
+    logToFile(`Language list fetch response headers: ${JSON.stringify(response.headers)}`);
+    logToFile(`Language list fetch response data: ${response.data}`);
+    return response.data;
+  } catch (error) {
+    const errorMessage = `Error fetching available languages: ${error.message}`;
+    logToFile(errorMessage);
+    process.exit(1);
+  }
+}
+
 async function getTranscript(axios, videoId, language = 'en') {
   const transcriptUrl = `https://www.youtube.com/api/timedtext?lang=${language}&v=${videoId}`;
   logToFile(`Fetching transcript from URL: ${transcriptUrl}`);
@@ -80,6 +96,27 @@ async function getTranscript(axios, videoId, language = 'en') {
     logToFile(errorMessage);
     process.exit(1);
   }
+}
+
+async function fetchAndCopyTranscript(clipboardy, axios, currentUrl, videoId) {
+  let transcript = await getTranscript(axios, videoId);
+  if (!transcript) {
+    const languages = await getAvailableLanguages(axios, videoId);
+    logToFile(`Available languages: ${languages}`);
+    // Retry with another language if available
+    const parsedLanguages = languages.match(/lang_code="([^"]+)"/g);
+    if (parsedLanguages && parsedLanguages.length > 0) {
+      const newLanguage = parsedLanguages[0].split('"')[1];
+      logToFile(`Retrying with language: ${newLanguage}`);
+      transcript = await getTranscript(axios, videoId, newLanguage);
+    }
+  }
+  logToFile(`Transcript length: ${transcript.length}`);
+
+  const textToCopy = `${currentUrl}\n\n${transcript}`;
+  await copyToClipboardInChunks(clipboardy, textToCopy);
+
+  logToFile('Transcript clipped successfully.');
 }
 
 async function copyToClipboardInChunks(clipboardy, text) {
@@ -104,11 +141,5 @@ async function copyToClipboardInChunks(clipboardy, text) {
   logToFile(`Video ID: ${videoId}`);
 
   const { clipboardy, axios } = await dynamicImports();
-  const transcript = await getTranscript(axios, videoId);
-  logToFile(`Transcript length: ${transcript.length}`);
-
-  const textToCopy = `${currentUrl}\n\n${transcript}`;
-  await copyToClipboardInChunks(clipboardy, textToCopy);
-
-  logToFile('Transcript clipped successfully.');
+  await fetchAndCopyTranscript(clipboardy, axios, currentUrl, videoId);
 })();
